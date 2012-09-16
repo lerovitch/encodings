@@ -1,0 +1,4 @@
+encodings
+=========
+
+Exercise of encodings
