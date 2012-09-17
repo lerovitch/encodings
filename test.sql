@@ -1,0 +1,1 @@
+create table customers (name TEXT PRIMARY KEY, AverageMinutes INT, AverageData INT, AverageSMS INT, AverageMonthlySpend REAL, AverageMonthlyOverage REAL, OverallContractStartDate INT, ContractStartDate INT, ContractEndDate INT);
