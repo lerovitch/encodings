@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
 
-import file_processing_solution as exercise
+import file_processing as exercise
 import unittest
 import sqlite3
 
@@ -18,7 +18,7 @@ class TestExercise(unittest.TestCase):
         """ Try to process a file with open builtin function and inserting into
         db"""
         file_path = 'test-utf8.dat'
-        exercise.process_file_db(file_path, 'utf-8')
+        exercise.process_file_db(file_path)
         with sqlite3.connect('test.db') as connection:
             connection.text_factory = str
             cursor = connection.cursor()
@@ -29,7 +29,7 @@ class TestExercise(unittest.TestCase):
         """ Try to process a file with open builtin function and inserting into
         db. Test with latin1 input file."""
         file_path = 'test-latin1.dat'
-        exercise.process_file_db(file_path, 'latin-1')
+        exercise.process_file_db(file_path)
         with sqlite3.connect('test.db') as connection:
             connection.text_factory = str
             cursor = connection.cursor()
@@ -40,7 +40,7 @@ class TestExercise(unittest.TestCase):
         """ Try to process a file with csv module and inserting into
         db"""
         file_path = 'test-utf8.dat'
-        exercise.process_csv_db(file_path, 'utf-8')
+        exercise.process_csv_db(file_path)
         with sqlite3.connect('test.db') as connection:
             cursor = connection.cursor()
             cursor.execute('SELECT * FROM CUSTOMERS WHERE NAME LIKE "Magda%"')
@@ -50,7 +50,7 @@ class TestExercise(unittest.TestCase):
         """ Try to process a file with csv module and inserting into
         db. Test with latin1 input file."""
         file_path = 'test-latin1.dat'
-        exercise.process_csv_db(file_path, 'latin-1')
+        exercise.process_csv_db(file_path)
         with sqlite3.connect('test.db') as connection:
             cursor = connection.cursor()
             cursor.execute('SELECT * FROM CUSTOMERS WHERE NAME LIKE "Magda%"')
@@ -60,7 +60,7 @@ class TestExercise(unittest.TestCase):
         """ Try to process a file with codecs module and inserting into
         db."""
         file_path = 'test-utf8.dat'
-        exercise.process_codecs_db(file_path, 'utf8')
+        exercise.process_codecs_db(file_path)
         with sqlite3.connect('test.db') as connection:
             cursor = connection.cursor()
             cursor.execute('SELECT * FROM CUSTOMERS WHERE NAME LIKE "Magda%"')
@@ -70,7 +70,7 @@ class TestExercise(unittest.TestCase):
         """ Try to process a file with codecs module and inserting into
         db. Test with latin1 file."""
         file_path = 'test-latin1.dat'
-        exercise.process_codecs_db(file_path, 'latin-1')
+        exercise.process_codecs_db(file_path)
         with sqlite3.connect('test.db') as connection:
             cursor = connection.cursor()
             cursor.execute('SELECT * FROM CUSTOMERS WHERE NAME LIKE "Magda%"')
@@ -81,12 +81,12 @@ class TestExercise(unittest.TestCase):
         """
         in_file = 'test-utf8.dat'
         out_file = 'test-out-utf8.dat'
-        exercise.process_codecs_file(in_file, out_file, 'utf8', 'utf8')
+        exercise.process_codecs_file(in_file, out_file)
         with open(out_file) as assert_file:
             for line in assert_file:
                 name = line.rstrip().split('|')[0]
                 if name.startswith('Mag'):
-                    self.assertEqual(name.decode('utf-8'), u'Magdalena Díaz')
+                    self.assertEqual(name, u'Magdalena Díaz')
 
     def test_process_codecs_file_latin1(self):
         """ Process a file in latin1 and write it to another file. output in utf-8
@@ -98,7 +98,7 @@ class TestExercise(unittest.TestCase):
             for line in assert_file:
                 name = line.rstrip().split('|')[0]
                 if name.startswith('Mag'):
-                    self.assertEqual(name.decode('utf-8'), u'Magdalena Díaz')
+                    self.assertEqual(name, u'Magdalena Díaz')
 
 
 if __name__ == '__main__':
