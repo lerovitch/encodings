@@ -11,15 +11,11 @@ def insert_line(cursor, line):
     cursor.execute(sql, line)
 
 
-def process_file_db(connection, file_path):
-    try:
-        cursor = connection.cursor()
+def process_file_db(cursor, file_path):
         with open(file_path, 'r') as opened_file:
             headers = opened_file.readline()
             for line in opened_file.readlines():
                 insert_line(cursor, line.rstrip().split('|'))
-    finally:
-        cursor.close()
     
 def process_csv_db(connection, file_path):
     try:
@@ -45,11 +41,10 @@ def process_codecs_db(connection, file_path):
     finally:
         cursor.close()
 
-def process_codecs_file(file_path_in, file_path_out):
-    import codecs
-    with codecs.open(file_path_in) as read_file:
-        with codecs.open(file_path_out, 'w+') as write_file:
+def process_file(file_path_in, file_path_out):
+    with open(file_path_in) as read_file:
+        with open(file_path_out, 'w+') as write_file:
             for line in read_file:
-                write_file.write(line)
+                write_file.write(line.rstrip().upper()+u'\u20AC'+'\n')
 
 
